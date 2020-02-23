@@ -1,7 +1,7 @@
 import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = ('localhost', 3030)
+server_address = ('localhost', 3031)
 print("Starting up on %s", server_address)
 s.bind(server_address)
 s.listen(1)
@@ -13,7 +13,7 @@ while True:
     response = response_data.decode('utf-8')
     list_split_by_space = response.split(' ')
     print(list_split_by_space[0])
-        
+
     ##This is the root folder html
     if(list_split_by_space[0]=='GET' and list_split_by_space[1] == '/'):
         host.sendall(bytes("HTTP/1.1 200 OK \r\nContent-Type: text/html; charset=UTF-8\r\nX-Content-Type-Options: nosniff\r\n\r\n"
@@ -83,6 +83,8 @@ while True:
         +'function changeBackground(color){'
     'document.body.style.background =color;'
 '}', "utf-8"))
+    elif(list_split_by_space[1] == '/test.png'):
+        host.sendall(bytes("HTTP/1.1 200 OK \r\nContent-Type: image/png; char-set=UTF-8\r\nContent-length: 100\r\n\r\ntest.png", "utf-8"))
     ##Everything else that is not in our directory
     else:
         host.sendall(bytes("HTTP/1.1 404 Sorry this part of the site doesn't exist \r\n Content-Type: text/plain \r\n Content-Length:120\r\n\r\n", "utf-8"))
